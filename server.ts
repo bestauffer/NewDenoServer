@@ -41,4 +41,4 @@ const app = new Application();
 app.use(router.routes());
 
 console.info(`CORS-enabled web server listening on port ${PORT}`);
-await app.listen({ port: PORT });
+await app.listen({ port: 10000 });

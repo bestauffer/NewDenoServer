@@ -25,6 +25,8 @@ const corsOptions: CorsOptions = {
     return origins; //  Reflect (enable) the requested origin in the CORS response for this origins
   },
 };
+const PORTO:string = Deno.env.get('PORT')!;
+const PORT:number = parseInt(PORTO);
 
 const router = new Router();
 router.get("/book", oakCors(corsOptions), (context) => {
@@ -38,4 +40,4 @@ const app = new Application();
 app.use(router.routes());
 
 console.info("CORS-enabled web server listening on port 8000");
-//await app.listen({ port: 8000 });
+await app.listen({ port: PORT });

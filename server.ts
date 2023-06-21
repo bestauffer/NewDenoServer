@@ -8,7 +8,7 @@ const sleep = (ms: number) =>
 
 const loadOriginsFromDataBase = async () => {
   await sleep(3000);
-  return ["http://localhost:1234", "http://localhost:3000"];
+  return ["https://bestauffer.github.io", "http://localhost:3000"];
 };
 
 const books = new Map<string, any>();

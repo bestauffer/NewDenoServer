@@ -27,6 +27,7 @@
 
 // @deno-types="npm:@types/express@4"
 import express, { NextFunction, Request, Response } from "npm:express";
+import { oakCors } from "https://deno.land/x/cors/mod.ts"
 import demoData from "./data_blob.json" assert { type: "json" };
 
 const app = express();
@@ -38,6 +39,11 @@ const reqLogger = function (req: Request, _res: Response, next: NextFunction) {
 };
 
 app.use(reqLogger);
+app.use(
+    oakCors({
+        origin: "http:/localhost:3001"
+    })
+)
 
 app.get("/", (_req, res) => {
     res.send("Hello, this message is from a Express Deno server");

@@ -7,4 +7,4 @@ COPY . ./
 RUN deno cache server.ts
 
 
-CMD ["task", "start"]
+CMD ["run", "--allow-net", "--allow-read",  "--allow-env",  "server.ts"]

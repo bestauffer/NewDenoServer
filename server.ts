@@ -1,5 +1,6 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { CorsOptions, oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
+import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -39,5 +40,5 @@ router.get("/", oakCors(corsOptions), (context) => {
 const app = new Application();
 app.use(router.routes());
 
-console.info("CORS-enabled web server listening on port 8000");
+console.info(`CORS-enabled web server listening on port ${PORT}`);
 await app.listen({ port: PORT });

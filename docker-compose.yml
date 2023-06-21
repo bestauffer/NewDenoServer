@@ -1,7 +1,5 @@
 version: "3.9"
 
-Access-Control-Allow-Origin: *
-
 services:
     deno-express-api:
         container_name: deno-express-api

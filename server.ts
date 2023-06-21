@@ -19,7 +19,7 @@ books.set("1", {
 });
 
 const corsOptions: CorsOptions = {
-  origin: async (requestOrigin) => {
+  origin: async () => {
     const origins = await loadOriginsFromDataBase(); // Simulate asynchronous task
 
     return origins; //  Reflect (enable) the requested origin in the CORS response for this origins
@@ -38,4 +38,4 @@ const app = new Application();
 app.use(router.routes());
 
 console.info("CORS-enabled web server listening on port 8000");
-await app.listen({ port: 8000 });
+//await app.listen({ port: 8000 });

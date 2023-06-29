@@ -59,13 +59,13 @@ const corsOptions: CorsOptions = {
 const PORTO: number = parseInt(PORT);
 
 const router = new Router();
-router.get("/book", oakCors(corsOptions), (context) => {
+router.get("/book", oakCors(), (context) => {
   context.response.body = Array.from(books.values());
 });
-router.get("/", oakCors(corsOptions), (context) => {
+router.get("/", oakCors(), (context) => {
   context.response.body = { message: "This message is coming from a get call on deno server" };
 });
-router.get('/email', oakCors(corsOptions), (context) => {
+router.get('/email', oakCors(), (context) => {
   myPoster();
   context.response.body = { message: "This message is coming from a post call on a deno server" };
 

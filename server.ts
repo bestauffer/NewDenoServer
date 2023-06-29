@@ -97,7 +97,7 @@ router.get("/book", oakCors(corsOptions), (context) => {
 });
 router.get("/", oakCors(corsOptions), (context) => {
 
-  context.response.body = { message: "This message is coming from a get call on deno server" };
+  context.response.body = { message: "This message is coming from a call on deno server" };
 });
 
 const app = new Application();

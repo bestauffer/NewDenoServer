@@ -66,4 +66,4 @@ const app = new Application();
 app.use(router.routes());
 
 console.info(`CORS-enabled web server listening on port ${PORTO}`);
-await app.listen({ port: PORTO });
+await app.listen({ port: 8000 });

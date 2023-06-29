@@ -1,11 +1,13 @@
+// deno-lint-ignore-file no-explicit-any
 import { Application, Router } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { CorsOptions, oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 //import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
-import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
-const client = new SmtpClient();
-const { EMAIL, PORT, EMAIL_PASSWORD, RECEIVING_EMAIL } = Deno.env.toObject();
+const client = new SmtpClient({
+  content_encoding: "quoted-printable", // 7bit, 8bit, base64, binary, quoted-printable
+});
+const { EMAIL, PORT, PWD, RECEIVING_EMAIL } = Deno.env.toObject();
 // const client = new SMTPClient({
 //   connection: {
 //     hostname: "smtp.aol.com",
@@ -34,13 +36,20 @@ const myPoster = async () => {
   try{
     //await client.connectTLS(connectConfig);
     //console.log(EMAIL);
-    const connectConfig: any = {
+    console.log("hi");
+     await client.connectTLS({
       hostname: "smtp.gmail.com",
       port: 465,
       username: EMAIL,
-      password: EMAIL_PASSWORD,
-    };
-    await client.connectTLS(connectConfig);
+      password: PWD,
+    });
+    // await client.connectTLS({
+    //   // hostname: "smtp.gmail.com",
+    //   // port: 465,
+    //   username: EMAIL,
+    //   password: PWD,
+    // });
+
     console.log("hi");
     await client.send({
       from: EMAIL,
@@ -51,7 +60,9 @@ const myPoster = async () => {
     
     await client.close();
   }
-  catch{}
+  catch{
+    console.log("failed");
+  }
  
 }
 
@@ -87,11 +98,6 @@ router.get("/book", oakCors(corsOptions), (context) => {
 router.get("/", oakCors(corsOptions), (context) => {
 
   context.response.body = { message: "This message is coming from a get call on deno server" };
-});
-router.put('/email', oakCors(corsOptions), (context) => {
-  myPoster();
-  context.response.body = { message: "This message is coming from a post call on a deno server" };
-
 });
 
 const app = new Application();

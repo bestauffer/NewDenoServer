@@ -9,7 +9,7 @@ const sleep = (ms: number) =>
   });
 
 const loadOriginsFromDataBase = async () => {
-  await sleep(3000);
+  await sleep(0);
   return ["https://bestauffer.github.io", "http://localhost:3000"];
 };
 

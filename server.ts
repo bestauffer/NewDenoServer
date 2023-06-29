@@ -1,7 +1,7 @@
-// deno-lint-ignore-file no-explicit-any
 import { Application, Router } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { CorsOptions, oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
+const { PORT } = Deno.env.toObject();
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -9,9 +9,10 @@ const sleep = (ms: number) =>
   });
 
 const loadOriginsFromDataBase = async () => {
-  await sleep(500);
+  await sleep(3000);
   return ["https://bestauffer.github.io", "http://localhost:3000"];
 };
+
 
 const books = new Map<string, any>();
 books.set("1", {
@@ -20,6 +21,7 @@ books.set("1", {
   author: "Mary Shelley",
 });
 
+
 const corsOptions: CorsOptions = {
   origin: async () => {
     const origins = await loadOriginsFromDataBase(); // Simulate asynchronous task
@@ -27,19 +29,20 @@ const corsOptions: CorsOptions = {
     return origins; //  Reflect (enable) the requested origin in the CORS response for this origins
   },
 };
-const PORTO:string = Deno.env.get('PORT')!;
-const PORT:number = parseInt(PORTO);
+//const PORTO:string = Deno.env.get('PORT')!;
+const PORTO: number = parseInt(PORT);
 
 const router = new Router();
 router.get("/book", oakCors(corsOptions), (context) => {
   context.response.body = Array.from(books.values());
 });
 router.get("/", oakCors(corsOptions), (context) => {
-    context.response.body = {message: "This message is coming from a deno server"};
-  });
+  context.response.body = { message: "This message is coming from a get call on deno server" };
+});
+
 
 const app = new Application();
 app.use(router.routes());
 
-console.info(`CORS-enabled web server listening on port ${PORT}`);
-await app.listen({ port: 10000 });
+console.info(`CORS-enabled web server listening on port ${PORTO}`);
+await app.listen({ port: PORTO });

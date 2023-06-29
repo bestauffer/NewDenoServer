@@ -2,21 +2,6 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { CorsOptions, oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
-//import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
-
-const { EMAIL, PORT, PWD, RECEIVING_EMAIL } = Deno.env.toObject();
-// const client = new SMTPClient({
-//   connection: {
-//     hostname: "smtp.aol.com",
-//     port: 465,
-//     // 
-//     auth: {
-//       username: EMAIL,
-//       password: EMAIL_PASSWORD,
-//     },
-//     tls: true,
-//   },
-// });
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -35,14 +20,6 @@ books.set("1", {
   author: "Mary Shelley",
 });
 
-// const connectConfig: any = {
-//   hostname: "smtp.gmail.com",
-//   port: 465,
-//   secure: true,
-//   username: EMAIL,
-//   password: EMAIL_PASSWORD,
-// };
-
 const corsOptions: CorsOptions = {
   origin: async () => {
     const origins = await loadOriginsFromDataBase(); // Simulate asynchronous task
@@ -50,20 +27,19 @@ const corsOptions: CorsOptions = {
     return origins; //  Reflect (enable) the requested origin in the CORS response for this origins
   },
 };
-//const PORTO:string = Deno.env.get('PORT')!;
-const PORTO: number = parseInt(PORT);
+const PORTO:string = Deno.env.get('PORT')!;
+const PORT:number = parseInt(PORTO);
 
 const router = new Router();
 router.get("/book", oakCors(corsOptions), (context) => {
   context.response.body = Array.from(books.values());
 });
 router.get("/", oakCors(corsOptions), (context) => {
-
-  context.response.body = { message: "This message is coming from a call on deno server" };
-});
+    context.response.body = {message: "This message is coming from a deno server"};
+  });
 
 const app = new Application();
 app.use(router.routes());
 
-console.info(`CORS-enabled web server listening on port ${PORTO}`);
-await app.listen({ port: 8000 });
+console.info(`CORS-enabled web server listening on port ${PORT}`);
+await app.listen({ port: 10000 });
